@@ -43,3 +43,88 @@
 .read-the-docs {
 	color: #888;
 }
+
+/* ===== GenZ职业规划 站点样式 ===== */
+.site {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.hero {
+	background: radial-gradient(1000px 400px at 50% -20%, rgba(100,108,255,0.25), transparent),
+		linear-gradient(180deg, rgba(246,130,31,0.12), transparent 60%);
+	border-radius: 16px;
+	padding: 3rem 2rem;
+	text-align: left;
+}
+
+.hero__content h1 {
+	font-size: 2.2rem;
+	margin: 0 0 0.5rem 0;
+}
+
+.hero__content p {
+	color: #cfd3dc;
+	max-width: 48rem;
+}
+
+.hero__cta {
+	display: flex;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.btn {
+	border: 1px solid rgba(255,255,255,0.2);
+	padding: 0.6rem 1rem;
+	border-radius: 10px;
+	text-decoration: none;
+	color: white;
+	background: rgba(255,255,255,0.04);
+	transition: all .2s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.35); }
+.btn.primary { background: #646cff; }
+.btn.secondary { background: rgba(255,255,255,0.06); }
+
+.section { text-align: left; }
+.section h2 { font-size: 1.6rem; margin-bottom: 1rem; }
+.grid { display: grid; gap: 1rem; }
+.grid.two { grid-template-columns: repeat(2, 1fr); }
+.grid.three { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+	background: rgba(255,255,255,0.04);
+	border: 1px solid rgba(255,255,255,0.1);
+	border-radius: 12px;
+	padding: 1.2rem;
+}
+.card h3 { margin-top: 0; }
+.card ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+
+.quiz__card { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 12px; padding: 1rem; }
+.options { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.8rem 0; }
+.chip { border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.06); color: white; border-radius: 999px; padding: 0.5rem 0.9rem; cursor: pointer; }
+.chip:hover { background: rgba(255,255,255,0.12); }
+.quiz__progress { color: #b7beca; font-size: 0.9rem; }
+.quiz__result .result { font-weight: 600; color: #e2e6ee; margin: 0.5rem 0 1rem; }
+
+.timeline { display: grid; gap: 0.6rem; }
+.timeline__item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 0.8rem 1rem; }
+.timeline__item .t { font-weight: 600; color: #e6e9f2; display: inline-block; margin-bottom: 0.2rem; }
+
+.faq details { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.6rem 0.8rem; margin-bottom: 0.6rem; }
+.faq summary { cursor: pointer; }
+
+.footer { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1rem; }
+.footer__inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.footer__nav { display: flex; gap: 0.8rem; }
+.footer__nav a { color: #cfd3dc; text-decoration: none; }
+.footer__copy { color: #9aa3b2; margin-top: 0.6rem; text-align: center; }
+
+@media (max-width: 900px) {
+	.grid.three { grid-template-columns: 1fr; }
+	.grid.two { grid-template-columns: 1fr; }
+	.hero__content h1 { font-size: 1.8rem; }
+}
