@@ -6,16 +6,10 @@ import Card from '../../components/ui/Card'
 import Button from '../../components/ui/Button'
 import Icon from '../../components/ui/Icon'
 import PageLayout from '../../components/PageLayout'
+import { cozeAPI } from '../../lib/coze'
 
 type Message = { role: 'user' | 'agent'; content: string }
 
-const generateMockAdvice = (text: string): string => {
-  const has = (k: string) => text.includes(k)
-  if (has('前端') || has('React')) return '建议：系统复习 TS/React/路由与数据流，做 2 个作品集。'
-  if (has('数据') || has('分析')) return '建议：学习 SQL/可视化与 A/B 测试方法，做 1 个分析报告。'
-  if (has('运营') || has('增长')) return '建议：掌握 AARRR 与内容增长策略，设计一个增长实验。'
-  return '建议：先完成通用能力打底（表达/项目管理），再选择细分赛道试跑。'
-}
 
 export default function AgentTest() {
   const [messages, setMessages] = useState<Message[]>([
@@ -23,6 +17,7 @@ export default function AgentTest() {
   ])
   const [input, setInput] = useState('')
   const [thinking, setThinking] = useState(false)
+  const [conversationId, setConversationId] = useState<string>('')
   const listRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -35,11 +30,25 @@ export default function AgentTest() {
     setInput('')
     setMessages((m) => [...m, { role: 'user', content: userText }])
     setThinking(true)
-    // Demo: 本地生成一个简单回复（可替换为实际后端/Worker 调用）
-    await new Promise((r) => setTimeout(r, 500))
-    const reply = generateMockAdvice(userText)
-    setMessages((m) => [...m, { role: 'agent', content: reply }])
-    setThinking(false)
+
+    try {
+      // 使用 Coze API
+      const response = await cozeAPI.sendMessage(userText, conversationId)
+      if (response.code === 0 && response.messages && response.messages.length > 0) {
+        const reply = response.messages[0].content
+        setMessages((m) => [...m, { role: 'agent', content: reply }])
+        if (response.conversation_id) {
+          setConversationId(response.conversation_id)
+        }
+      } else {
+        throw new Error(response.msg || 'Coze API 返回错误')
+      }
+    } catch (error) {
+      console.error('发送消息失败:', error)
+      setMessages((m) => [...m, { role: 'agent', content: '抱歉，AI服务暂时不可用，请稍后再试。' }])
+    } finally {
+      setThinking(false)
+    }
   }
 
   return (
@@ -51,6 +60,28 @@ export default function AgentTest() {
         className="mb-8"
         centered
       />
+
+      {/* API 状态提示 */}
+      <Card className="mb-6 dark-card">
+        <div className="flex items-center space-x-3">
+          <Icon variant="blue" size="sm">
+            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </Icon>
+          <div>
+            <h3 className="font-semibold" style={{color: 'var(--text-primary)'}}>AI 服务</h3>
+            <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
+              使用 Coze AI 服务提供职业规划建议
+            </p>
+          </div>
+        </div>
+        <div className="mt-3 p-3 rounded-lg" style={{backgroundColor: 'var(--card-bg)', border: '1px solid var(--border)'}}>
+          <p className="text-sm" style={{color: 'var(--text-secondary)'}}>
+            ⚠️ 使用 Coze API 需要配置环境变量 NEXT_PUBLIC_COZE_BOT_ID 和 NEXT_PUBLIC_COZE_API_KEY
+          </p>
+        </div>
+      </Card>
 
       <Card className="overflow-hidden">
         {/* Chat Header */}
@@ -159,7 +190,7 @@ export default function AgentTest() {
           <div>
             <h3 className='font-semibold mb-2' style={{color: 'var(--text-primary)'}}>说明</h3>
             <p className='text-sm leading-relaxed' style={{color: 'var(--text-secondary)'}}>
-              当前为本地演示逻辑。可接入 Cloudflare Worker API 返回真实建议。AI助手会根据你的回答提供个性化的职业规划建议。
+              当前使用 Coze AI 服务提供真实的职业规划建议。请确保已正确配置环境变量。AI助手会根据你的回答提供个性化的职业规划建议。
             </p>
           </div>
         </div>

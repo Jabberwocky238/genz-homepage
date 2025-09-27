@@ -1,35 +1,29 @@
-'use server'
-
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/d1';
+import { db } from '../../../lib/d1';
 
-// GET /api/users - 获取所有用户
 export async function GET() {
   try {
     const users = await db.query('SELECT * FROM users ORDER BY created_at DESC');
-    return NextResponse.json({ users });
+    return NextResponse.json({ success: true, data: users });
   } catch (error) {
-    console.error('Error fetching users:', error);
-    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+    return NextResponse.json({ success: false, error: '获取用户失败' }, { status: 500 });
   }
 }
 
-// POST /api/users - 创建新用户
 export async function POST(request: NextRequest) {
   try {
-    const { name, email } = await request.json() as { name: string, email: string };
+    const { name, email } = await request.json() as { name: string; email: string };
+    if (!name || !email) {
+      return NextResponse.json({ success: false, error: '姓名和邮箱不能为空' }, { status: 400 });
+    }
     
     const result = await db.execute(
-      'INSERT INTO users (name, email, created_at) VALUES (?, ?, ?)',
-      [name, email, new Date().toISOString()]
+      'INSERT INTO users (name, email) VALUES (?, ?)',
+      [name, email]
     );
     
-    return NextResponse.json({ 
-      success: true, 
-      id: result.meta.last_row_id 
-    });
+    return NextResponse.json({ success: true, data: { id: result.meta.last_row_id } });
   } catch (error) {
-    console.error('Error creating user:', error);
-    return NextResponse.json({ error: 'Failed to create user' }, { status: 500 });
+    return NextResponse.json({ success: false, error: '创建用户失败' }, { status: 500 });
   }
 }

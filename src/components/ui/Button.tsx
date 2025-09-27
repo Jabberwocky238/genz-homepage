@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 interface ButtonProps {
   children: ReactNode
-  variant?: 'primary' | 'secondary' | 'outline'
+  variant?: 'primary' | 'secondary' | 'outline' | 'red'
   size?: 'sm' | 'md' | 'lg'
   disabled?: boolean
   loading?: boolean
@@ -50,6 +50,12 @@ export default function Button({
           color: 'var(--text-secondary)',
           border: '2px solid var(--border)'
         }
+      case 'red':
+        return {
+          background: '#dc2626',
+          color: 'white',
+          border: 'none'
+        }
       default:
         return {}
     }
@@ -91,6 +97,8 @@ export default function Button({
           } else if (variant === 'outline') {
             target.style.backgroundColor = 'var(--navy-light)'
             target.style.color = 'var(--text-primary)'
+          } else if (variant === 'red') {
+            target.style.backgroundColor = '#b91c1c'
           }
         }}
         onMouseLeave={(e) => {
@@ -120,6 +128,8 @@ export default function Button({
         } else if (variant === 'outline') {
           target.style.backgroundColor = 'var(--navy-light)'
           target.style.color = 'var(--text-primary)'
+        } else if (variant === 'red') {
+          target.style.backgroundColor = '#b91c1c'
         }
       }}
       onMouseLeave={(e) => {
