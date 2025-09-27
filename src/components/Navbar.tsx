@@ -13,6 +13,7 @@ export default function Navbar() {
     { name: '求职辅导', href: '/pricing' },
     { name: '社区', href: '/community' },
     { name: '关于我们', href: '/about' },
+    { name: '数据库测试', href: '/database-demo' },
   ]
 
   return (
