@@ -10,7 +10,7 @@ const personalPricing = {
   singleServices: [
     {
       name: "AI深度咨询",
-      price: "299元/次",
+      price: "限时免费",
       description: "个性化职业规划报告",
       features: ["性格分析", "职业匹配", "发展路径", "行动计划"],
       popular: false

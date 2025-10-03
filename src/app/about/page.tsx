@@ -9,16 +9,16 @@ const teamData = {
   ceo: {
     name: "杨婉琳",
     position: "CEO",
-    description: "专注于职业规划领域10年，曾任职于知名咨询公司，深度了解GenZ群体职业发展需求",
+    description: "专注于职业规划领域数年，曾任职于知名咨询公司，深度了解GenZ群体职业发展需求",
     expertise: ["职业规划", "人才发展", "战略咨询"],
     avatar: "👩‍💼"
   },
   cto: {
-    name: "张铨",
-    position: "CTO", 
-    description: "技术专家，拥有丰富的AI和数据分析经验，致力于用技术赋能职业规划",
-    expertise: ["AI技术", "数据分析", "产品开发"],
-    avatar: "👨‍💻"
+    name: "袁心",
+    position: "Co-founder｜IACA认证职业咨询师", 
+    description: "留美8年，专注K12/高校生涯规划与志愿填报，累计服务上千名学生",
+    expertise: ["生涯规划", "教育项目合作", "AI+教育"],
+    avatar: "👨‍💼"
   }
 }
 
